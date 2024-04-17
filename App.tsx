@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './app/screens/Login';
@@ -8,17 +9,37 @@ import Details from './app/screens/Details';
 import { useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './FirebaseConfig';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 
-const InsideStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function InsideLayout() {
   return (
-    <InsideStack.Navigator>
-      <InsideStack.Screen name='My todos' component={List} />
-      <InsideStack.Screen name='Details' component={Details} />
-    </InsideStack.Navigator>
+    <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'compass-outline'
+                : 'compass-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'compass-outline' : 'compass-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tab.Screen name="Home" component={List} />
+        <Tab.Screen name="Settings" component={Details} />
+      </Tab.Navigator>
   );
 }
 
@@ -27,7 +48,7 @@ export default function App() {
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log('user' + user);
+      //console.log('user' + user);
       setUser(user);
     });
   })
@@ -42,6 +63,8 @@ export default function App() {
         )}
         
       </Stack.Navigator>
+
+
     </NavigationContainer>
   );
 };

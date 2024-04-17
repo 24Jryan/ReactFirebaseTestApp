@@ -36,7 +36,7 @@ const Login = () => {
     }
     return (
         <View style={styles.container}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView behavior='padding'>
                 <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
                 <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)}></TextInput>
 
@@ -47,7 +47,7 @@ const Login = () => {
                     <Button title="Create Account" onPress={signUp} />
                 </>
             ) }
-    </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         </View>
     );
 };
